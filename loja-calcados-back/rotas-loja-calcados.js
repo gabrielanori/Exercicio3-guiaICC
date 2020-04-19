@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(url, function (err, db) {
   if (err) throw err;
   var dbo = db.db("gestao_loja");
   dbo.collection("estoque_loja");
@@ -44,10 +44,17 @@ app.post("/insertCalcado", (req, res) => {
   res.send();
 });
 
+app.post("/deleteCalcado", async (req, res) => {
+  console.log(req.body);
+  var body = await mongo.deleteDoc(req.body);
+
+  res.send(body);
+});
+
 app.delete("/deleteCalcado/", async (req, res) => {
   console.log("olha o body aqui", req.body);
   await mongo.deleteDoc(req.body);
-  res.send({ success: true });
+  res.send({ success: banana });
 });
 
 app.listen(3001, () => console.log("servidor rodando na porta 3001"));

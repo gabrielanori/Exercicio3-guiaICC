@@ -22,13 +22,25 @@ class Container extends Component {
 
   addOne = event => {
     event.preventDefault();
-    this.setState({
-      produtos: [
-        ...this.state.produtos,
-        { descricao: "", valor: 0, quantidade: 0 }
-      ]
-    });
+    const produtos = [...this.state.produtos];
+    if (produtos.length !== 0) {
+      const lastId = produtos[produtos.length - 1]._id;
+      produtos.push({
+        _id: lastId + 1,
+        descricao: "",
+        valor: 0,
+        quantidade: 0
+      }
+      );
+    } else {
+      produtos.push({
+        _id: 1, descricao: "",
+        valor: Number(0),
+        quantidade: Number(0),
+      })
+    } this.setState({ produtos: produtos });
   };
+
   render() {
     return (
       <div>
@@ -36,9 +48,9 @@ class Container extends Component {
 
         {this.state.produtos.map(produto => (
           <Produto
-            key={produto.id}
+            key={produto._id}
             _id={produto._id}
-            id={produto.id}
+
             descricao={produto.descricao}
             valor={produto.valor}
             quantidade={produto.quantidade}

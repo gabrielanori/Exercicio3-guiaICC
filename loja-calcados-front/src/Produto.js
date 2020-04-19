@@ -5,7 +5,7 @@ class Produto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.id,
+      _id: this.props._id,
       descricao: this.props.descricao,
       valor: this.props.valor,
       quantidade: this.props.quantidade,
@@ -15,10 +15,10 @@ class Produto extends Component {
   insertOrUpdate = (event) => {
     event.preventDefault();
     const checkData = {
-      id: this.state.id,
+      _id: this.state._id,
       descricao: this.state.descricao,
-      valor: this.state.valor,
-      quantidade: this.state.quantidade
+      valor: Number(this.state.valor),
+      quantidade: Number(this.state.quantidade)
     };
     console.log();
     axios
@@ -28,21 +28,19 @@ class Produto extends Component {
       })
       .catch(erro => console.log(erro));
   };
+
+
   onDelete = (event) => {
     event.preventDefault();
-    const headers = {
-      Authorization: "Bearer paperboy",
-    };
 
+    const deleteData = { _id: this.state._id };
+    console.log(this.state._id);
     axios
-      .delete(`http://localhost:3001/deleteCalcado/`, {
-        headers,
-        data: { id: this.state.id },
-      })
-      .then((response) => {
+      .post(`http://localhost:3001/deleteCalcado/`, deleteData)
+      .then(response => {
         console.log(response.data);
       })
-      .catch((erro) => console.log(erro));
+      .catch(erro => console.log(erro));
   };
 
   render() {
@@ -63,7 +61,7 @@ class Produto extends Component {
           <label>
             Valor<br></br>
             <input
-              type="number"
+              type='number'
               value={this.state.valor}
               onChange={(event) => {
                 this.setState({ valor: event.target.value });
@@ -73,7 +71,7 @@ class Produto extends Component {
           <label>
             Quantidade<br></br>
             <input
-              type="number"
+              type='number'
               value={this.state.quantidade}
               onChange={(event) => {
                 this.setState({ quantidade: event.target.value });
